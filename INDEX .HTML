@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RewardStream | Global Micro-Task & Faucet Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#0b0f19] text-slate-100 min-h-screen font-sans flex flex-col md:flex-row pb-20 md:pb-0">
+
+    <!-- Desktop Sidebar Navigation -->
+    <aside class="hidden md:flex w-64 bg-[#111827] border-r border-slate-800 p-6 flex-col justify-between shrink-0 h-screen sticky top-0">
+        <div>
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-xl shadow-lg">
+                    💎
+                </div>
+                <div>
+                    <span class="font-bold text-lg text-white tracking-wide">Reward<span class="text-emerald-400">Stream</span></span>
+                    <span class="block text-[10px] text-slate-400 font-mono">Global GPT Gateway</span>
+                </div>
+            </div>
+
+            <!-- Workspace Menu -->
+            <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2 px-3">Workspace</div>
+            <nav class="space-y-1.5 text-sm font-medium">
+                <a href="#" onclick="switchTab('dashboard')" id="nav-dashboard" class="flex items-center justify-between px-4 py-3 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 transition">
+                    <span>📊 Dashboard & Faucet</span>
+                </a>
+                <a href="#" onclick="switchTab('ptc1')" id="nav-ptc1" class="flex items-center justify-between px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800/80 hover:text-white transition">
+                    <span>🔥 PTC Offers 1</span>
+                    <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded font-mono border border-emerald-500/30">Adsterra</span>
+                </a>
+                <a href="#" onclick="switchTab('ptc2')" id="nav-ptc2" class="flex items-center justify-between px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800/80 hover:text-white transition">
+                    <span>⚡ PTC Offers 2</span>
+                    <span class="text-[10px] bg-cyan-500/20 text-cyan-400 px-2 py-0.5 rounded font-mono border border-cyan-500/30">Monetag</span>
+                </a>
+                <a href="#" onclick="switchTab('withdraw')" id="nav-withdraw" class="flex items-center justify-between px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800/80 hover:text-white transition">
+                    <span>💸 Withdraw</span>
+                    <span class="text-[10px] bg-yellow-500/20 text-yellow-400 px-2 py-0.5 rounded font-mono">Min ₹5</span>
+                </a>
+                <a href="#" onclick="switchTab('referral')" id="nav-referral" class="flex items-center justify-between px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800/80 hover:text-white transition">
+                    <span>👥 Referrals</span>
+                    <span class="text-[10px] bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded font-mono">20%</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- User Balance Widget in Sidebar -->
+        <div class="bg-[#0b0f19] p-4 rounded-xl border border-slate-800/80 shadow-inner">
+            <span class="text-[10px] text-slate-400 uppercase tracking-wider block font-medium">To withdraw</span>
+            <span class="text-base font-extrabold text-emerald-400 font-mono mt-0.5 block" id="userBal">0 Pts (₹0.00)</span>
+        </div>
+    </aside>
+
+    <!-- Mobile Top Header Bar -->
+    <header class="md:hidden bg-[#111827] border-b border-slate-800 p-4 flex justify-between items-center sticky top-0 z-40">
+        <div class="flex items-center gap-2">
+            <span class="text-xl">💎</span>
+            <span class="font-bold text-white text-base">Reward<span class="text-emerald-400">Stream</span></span>
+        </div>
+        <div class="bg-[#0b0f19] px-3 py-1 rounded-lg border border-slate-800 text-xs font-mono text-emerald-400 font-bold" id="mobileBal">
+            0 Pts (₹0.00)
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 p-4 md:p-8 space-y-6 overflow-y-auto max-w-5xl mx-auto w-full">
+
+        <!-- Top Ad Banner Space (A-Ads Integrated) -->
+        <div class="w-full bg-[#111827] border border-slate-800 rounded-xl p-3 text-center shadow-lg">
+            <!-- BEGIN AADS AD UNIT 2462293 -->
+            <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
+              <iframe data-aa='2462293' src='//acceptable.a-ads.com/2462293/?size=Adaptive'
+                        style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
+            </div>
+            <!-- END AADS AD UNIT 2462293 -->
+        </div>
+
+        <!-- TAB 1: Dashboard & Faucet -->
+        <div id="tab-dashboard" class="space-y-6">
+            <div class="bg-[#111827] rounded-2xl shadow-xl p-6 md:p-8 border border-slate-800/80">
+                <div class="text-center mb-6">
+                    <h1 class="text-2xl md:text-3xl font-extrabold text-white">Instant Faucet & Rewards</h1>
+                    <p class="text-sm text-slate-400 mt-2">Claim <span class="text-emerald-400 font-semibold">5 Points (₹0.05)</span> per claim and withdraw instantly to your <span class="text-cyan-400 font-semibold">UPI ID / Paytm</span>.</p>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-3 gap-3 mb-6">
+                    <div class="bg-[#0b0f19] p-3.5 rounded-xl border border-slate-800/80 text-center">
+                        <span class="text-[9px] text-slate-400 uppercase tracking-wider block font-medium">Active Earners</span>
+                        <span class="text-xs md:text-sm font-bold text-white mt-1 block">74,210+</span>
+                    </div>
+                    <div class="bg-[#0b0f19] p-3.5 rounded-xl border border-slate-800/80 text-center">
+                        <span class="text-[9px] text-slate-400 uppercase tracking-wider block font-medium">Total Paid</span>
+                        <span class="text-xs md:text-sm font-bold text-emerald-400 mt-1 block">₹3,12,400+</span>
+                    </div>
+                    <div class="bg-[#0b0f19] p-3.5 rounded-xl border border-slate-800/80 text-center">
+                        <span class="text-[9px] text-slate-400 uppercase tracking-wider block font-medium">Claim Rate</span>
+                        <span class="text-xs md:text-sm font-bold text-yellow-400 mt-1 block">5 Pts (₹0.05)</span>
+                    </div>
+                </div>
+
+                <!-- Claim Box -->
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                            👤 Enter Your Name / Nickname:
+                        </label>
+                        <input type="text" id="userName" placeholder="e.g. Rahul Kumar" class="w-full bg-[#0b0f19] border border-slate-800 rounded-xl px-4 py-3.5 text-emerald-300 font-mono text-sm focus:outline-none focus:border-emerald-500 transition shadow-inner">
+                    </div>
+
+                    <!-- Status Alert Box -->
+                    <div id="alertBox" class="p-4 rounded-xl text-xs md:text-sm font-mono text-center border bg-slate-950 text-emerald-400 border-slate-800 font-bold">
+                        ℹ️ Status: Ready to claim rewards! (100 claims = ₹5)
+                    </div>
+
+                    <!-- Claim Button -->
+                    <button onclick="processClaim()" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-extrabold py-4 rounded-xl shadow-lg transition transform active:scale-95 text-sm md:text-base uppercase tracking-wider cursor-pointer">
+                        🎁 CLAIM 5 POINTS (₹0.05) 🎁
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: PTC Offers 1 (Adsterra) -->
+        <div id="tab-ptc1" class="space-y-6 hidden">
+            <div class="bg-[#111827] rounded-2xl shadow-xl p-6 border border-slate-800/80">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                            🔥 PTC Offers 1 <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">Adsterra Network</span>
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-1">View sponsored ads for 7 seconds to earn 10 Points (₹0.10) instantly.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="bg-[#0b0f19] border border-slate-800/80 rounded-xl p-4 flex flex-col justify-between hover:border-emerald-500/50 transition">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded font-mono border border-emerald-500/20">7s Timer</span>
+                                <span class="text-[10px] text-slate-500 uppercase tracking-wider font-mono">ADSTERRA</span>
+                            </div>
+                            <h3 class="text-xs font-bold text-slate-200 mb-1">Adsterra Task #1</h3>
+                            <p class="text-[11px] text-slate-400 mb-4">View sponsor task securely in new tab.</p>
+                        </div>
+                        <button onclick="openPtcModal('Adsterra Task #1', 10, 7, 'https://auctionr.org/4/56f694eac19f1e89682e3494775c610e')" class="w-full bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white py-2.5 rounded-lg text-xs font-bold transition border border-emerald-800 cursor-pointer flex items-center justify-center gap-1">
+                            +10 Pts (₹0.10) • View Ad
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: PTC Offers 2 (Monetag) -->
+        <div id="tab-ptc2" class="space-y-6 hidden">
+            <div class="bg-[#111827] rounded-2xl shadow-xl p-6 border border-slate-800/80">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                            ⚡ PTC Offers 2 <span class="text-xs bg-cyan-500/20 text-cyan-400 px-2 py-0.5 rounded border border-cyan-500/30">Monetag Network</span>
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-1">View monetization ads for 7 seconds to earn 10 Points (₹0.10) instantly.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="bg-[#0b0f19] border border-slate-800/80 rounded-xl p-4 flex flex-col justify-between hover:border-cyan-500/50 transition">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-[10px] bg-cyan-500/10 text-cyan-400 px-2 py-0.5 rounded font-mono border border-cyan-500/20">7s Timer</span>
+                                <span class="text-[10px] text-slate-500 uppercase tracking-wider font-mono">MONETAG</span>
+                            </div>
+                            <h3 class="text-xs font-bold text-slate-200 mb-1">Monetag Task #1</h3>
+                            <p class="text-[11px] text-slate-400 mb-4">View partner task securely in new tab.</p>
+                        </div>
+                        <button onclick="openPtcModal('Monetag Task #1', 10, 7, 'https://uplcm.com/4/11341874')" class="w-full bg-cyan-600/20 hover:bg-cyan-600 text-cyan-300 hover:text-white py-2.5 rounded-lg text-xs font-bold transition border border-cyan-800 cursor-pointer flex items-center justify-center gap-1">
+                            +10 Pts (₹0.10) • View Ad
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: Withdraw (UPI / INR Payout) -->
+        <div id="tab-withdraw" class="space-y-6 hidden">
+            <div class="bg-[#111827] rounded-2xl shadow-xl p-6 md:p-8 border border-slate-800/80">
+                <h2 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                    💸 Instant UPI Payout <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">Min: ₹5 (500 Points)</span>
+                </h2>
+                <p class="text-xs text-slate-400 mb-6">Enter your UPI ID / PhonePe / Paytm number below. Manual payouts are processed within 10 minutes!</p>
+
+                <div class="space-y-4 max-w-lg">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                            📱 Your UPI ID / Paytm Number:
+                        </label>
+                        <input type="text" id="upiInput" placeholder="9876543210@paytm" class="w-full bg-[#0b0f19] border border-slate-800 rounded-xl px-4 py-3.5 text-emerald-300 font-mono text-sm focus:outline-none focus:border-emerald-500 transition shadow-inner">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                            💰 Points to Withdraw (100 Points = ₹1):
+                        </label>
+                        <input type="number" id="withdrawPoints" placeholder="500" class="w-full bg-[#0b0f19] border border-slate-800 rounded-xl px-4 py-3.5 text-yellow-400 font-mono text-sm focus:outline-none focus:border-emerald-500 transition shadow-inner" value="500">
+                    </div>
+
+                    <div id="withdrawAlert" class="p-3.5 rounded-xl text-xs font-mono text-center border bg-slate-950 text-slate-300 border-slate-800">
+                        ℹ️ Available Balance: <span id="availablePoints" class="text-emerald-400 font-bold">0 Points</span> (₹0.00)
+                    </div>
+
+                    <button onclick="requestWithdrawal()" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-extrabold py-3.5 rounded-xl shadow-lg transition transform active:scale-95 text-sm uppercase tracking-wider cursor-pointer">
+                        🚀 SUBMIT WITHDRAWAL REQUEST 🚀
+                    </button>
+                </div>
+
+                <!-- Withdrawal History -->
+                <div class="mt-8 pt-6 border-t border-slate-800/80">
+                    <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3">📋 Withdrawal History</h3>
+                    <div id="withdrawHistory" class="space-y-2 text-xs font-mono text-slate-400">
+                        <div class="bg-[#0b0f19] p-3 rounded-xl border border-slate-800/80 text-center">
+                            No withdrawal requests made yet.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: Referrals -->
+        <div id="tab-referral" class="space-y-6 hidden">
+            <div class="bg-[#111827] rounded-2xl shadow-xl p-6 border border-slate-800/80">
+                <h2 class="text-xl font-bold text-white mb-2">👥 Referral Program (20% Commission)</h2>
+                <p class="text-xs text-slate-400 mb-4">Share your invite link with friends. Whenever they claim or complete PTC tasks, you get <span class="text-purple-400 font-bold">20% commission</span> instantly added to your balance!</p>
+                <div class="flex items-center gap-2 mb-4">
+                    <input type="text" id="refLinkBox" readonly class="w-full bg-[#0b0f19] border border-slate-800 rounded-xl px-3.5 py-3.5 text-slate-400 font-mono text-xs focus:outline-none shadow-inner" value="Enter your name on Dashboard first...">
+                    <button onclick="copyRefLink()" class="bg-purple-600 hover:bg-purple-500 text-white px-5 py-3.5 rounded-xl text-xs font-semibold transition cursor-pointer shadow-lg">
+                        📋 Copy
+                    </button>
+                </div>
+                <div class="bg-[#0b0f19] p-4 rounded-xl border border-slate-800/80 text-xs font-mono text-slate-300">
+                    💡 Total Referral Earnings: <span id="refEarnings" class="text-purple-400 font-bold">0 Points</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Payout Ticker -->
+        <div class="bg-[#111827] border border-slate-800/80 rounded-2xl p-4 shadow-md">
+            <div class="flex items-center justify-between mb-3 px-2">
+                <span class="text-xs font-bold text-slate-300 uppercase tracking-wider">🕒 Live Payout Feed</span>
+                <span class="text-[10px] text-emerald-400 font-mono">● Realtime</span>
+            </div>
+            <div id="payoutTicker" class="space-y-2 max-h-[100px] overflow-y-auto text-xs font-mono">
+                <!-- Dynamic Items -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Mobile Bottom Navigation Bar (Visible only on mobile) -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-[#111827] border-t border-slate-800 p-2 flex justify-around items-center z-50 shadow-2xl">
+        <button onclick="switchTab('dashboard')" id="mob-nav-dashboard" class="flex flex-col items-center text-[10px] text-emerald-400 p-1 font-bold">
+            <span class="text-lg">📊</span>
+            <span>Dashboard</span>
+        </button>
+        <button onclick="switchTab('ptc1')" id="mob-nav-ptc1" class="flex flex-col items-center text-[10px] text-slate-400 p-1">
+            <span class="text-lg">🔥</span>
+            <span>Offers 1</span>
+        </button>
+        <button onclick="switchTab('ptc2')" id="mob-nav-ptc2" class="flex flex-col items-center text-[10px] text-slate-400 p-1">
+            <span class="text-lg">⚡</span>
+            <span>Offers 2</span>
+        </button>
+        <button onclick="switchTab('withdraw')" id="mob-nav-withdraw" class="flex flex-col items-center text-[10px] text-slate-400 p-1">
+            <span class="text-lg">💸</span>
+            <span>Withdraw</span>
+        </button>
+        <button onclick="switchTab('referral')" id="mob-nav-referral" class="flex flex-col items-center text-[10px] text-slate-400 p-1">
+            <span class="text-lg">👥</span>
+            <span>Referrals</span>
+        </button>
+    </nav>
+
+    <!-- PTC Timer Modal -->
+    <div id="ptcModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-[#111827] border border-slate-800 rounded-2xl w-full max-w-md p-6 text-center shadow-2xl relative">
+            <h3 id="modalAdTitle" class="text-lg font-bold text-white mb-2">Viewing Advertisement</h3>
+            <p id="modalAdDesc" class="text-xs text-slate-400 mb-6">Please wait while timer completes...</p>
+            
+            <div id="timerDisplay" class="text-4xl font-extrabold text-emerald-400 font-mono mb-6 bg-[#0b0f19] py-6 rounded-xl border border-slate-800/80 animate-pulse">
+                7
+            </div>
+
+            <div id="modalStatus" class="text-xs font-mono text-slate-300 mb-4">
+                Keep window focused to receive reward.
+            </div>
+
+            <button id="closeModalBtn" onclick="closeModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition hidden cursor-pointer shadow-lg">
+                Close & Claim Reward
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript Core Logic -->
+    <script>
+        let userPoints = parseInt(localStorage.getItem("rewardStream_pts")) || 0;
+        let lastClaimTime = parseInt(localStorage.getItem("rewardStream_claimTime")) || 0;
+        let refEarnings = parseInt(localStorage.getItem("rewardStream_refPts")) || 0;
+        const COOLDOWN_TIME = 60; // 60 seconds
+        let countdownInterval = null;
+        let pendingReward = 0;
+
+        // Updated Dummy Users with requested names
+        const dummyUsers = [
+            "Prince (₹5 paid)", "Aryans (₹10 paid)", "Saurabh (₹5 paid)", 
+            "Sajan (₹15 paid)", "Akash (₹5 paid)", "Sanjay (₹20 paid)",
+            "Pradeep (₹10 paid)", "Subhash (₹5 paid)", "Shiv (₹15 paid)", "Naresh (₹10 paid)"
+        ];
+
+        window.onload = function() {
+            loadPayoutTicker();
+            updateBalanceDisplay();
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const refUser = urlParams.get("ref");
+            if(refUser) {
+                localStorage.setItem("rewardStream_referrer", refUser);
+            }
+
+            const savedName = localStorage.getItem("rewardStream_name");
+            if(savedName) {
+                document.getElementById("userName").value = savedName;
+                generateRefLink(savedName);
+            }
+        };
+
+        function switchTab(tabName) {
+            ['dashboard', 'ptc1', 'ptc2', 'withdraw', 'referral'].forEach(t => {
+                const tabEl = document.getElementById('tab-' + t);
+                if(tabEl) tabEl.classList.add('hidden');
+
+                const nav = document.getElementById('nav-' + t);
+                if(nav) nav.className = "flex items-center justify-between px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800/80 hover:text-white transition";
+
+                const mobNav = document.getElementById('mob-nav-' + t);
+                if(mobNav) mobNav.className = "flex flex-col items-center text-[10px] text-slate-400 p-1";
+            });
+
+            const targetTab = document.getElementById('tab-' + tabName);
+            if(targetTab) targetTab.classList.remove('hidden');
+
+            const activeNav = document.getElementById('nav-' + tabName);
+            if(activeNav) activeNav.className = "flex items-center justify-between px-4 py-3 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 transition";
+            
+            const activeMobNav = document.getElementById('mob-nav-' + tabName);
+            if(activeMobNav) activeMobNav.className = "flex flex-col items-center text-[10px] text-emerald-400 p-1 font-bold";
+        }
+
+        function loadPayoutTicker() {
+            const ticker = document.getElementById("payoutTicker");
+            if(!ticker) return;
+            ticker.innerHTML = "";
+            for(let i=0; i<3; i++) {
+                let randomUser = dummyUsers[Math.floor(Math.random() * dummyUsers.length)];
+                let amt = Math.floor(Math.random() * 3) * 5 + 5;
+                ticker.innerHTML += `
+                    <div class="bg-[#0b0f19] px-3 py-2 rounded-lg border border-slate-800/60 flex justify-between items-center text-slate-300">
+                        <span>✅ ${randomUser}</span>
+                        <span class="text-emerald-400 font-bold">Paid ₹${amt} via UPI</span>
+                    </div>
+                `;
+            }
+        }
+
+        function generateRefLink(name) {
+            const refLink = window.location.origin + window.location.pathname + "?ref=" + encodeURIComponent(name);
+            const refBox = document.getElementById("refLinkBox");
+            if(refBox) refBox.value = refLink;
+        }
+
+        function processClaim() {
+            const nameInput = document.getElementById("userName");
+            const alertBox = document.getElementById("alertBox");
+            if(!nameInput || !alertBox) return;
+
+            const name = nameInput.value.trim();
+
+            if (!name || name.length < 2) {
+                alertBox.className = "p-4 rounded-xl text-xs md:text-sm font-mono text-center border bg-rose-950/90 text-rose-300 border-rose-800 font-bold";
+                alertBox.innerText = "❌ Please enter your name/nickname first!";
+                return;
+            }
+
+            localStorage.setItem("rewardStream_name", name);
+            generateRefLink(name);
+
+            const currentTime = Math.floor(Date.now() / 1000);
+            if (currentTime - lastClaimTime < COOLDOWN_TIME) {
+                const timeLeft = COOLDOWN_TIME - (currentTime - lastClaimTime);
+                alertBox.className = "p-4 rounded-xl text-xs md:text-sm font-mono text-center border bg-yellow-950/90 text-yellow-300 border-yellow-800/90 font-bold";
+                alertBox.innerText = `⏳ Cooldown active! Please wait ${timeLeft} seconds.`;
+                return;
+            }
+
+            lastClaimTime = currentTime;
+            localStorage.setItem("rewardStream_claimTime", lastClaimTime);
+
+            let earned = 5; // 5 Points = ₹0.05
+            userPoints += earned;
+            saveData();
+            
+            alertBox.className = "p-4 rounded-xl text-xs md:text-sm font-mono text-center border bg-emerald-950/90 text-emerald-300 border-emerald-800/90 font-bold animate-pulse";
+            alertBox.innerText = "🎉 SUCCESS! +5 Points (₹0.05) added to your balance!";
+
+            handleReferralCommission(earned);
+            setTimeout(loadPayoutTicker, 500);
+        }
+
+        function openPtcModal(title, reward, seconds, adUrl) {
+            pendingReward = reward;
+
+            window.open(adUrl, "_blank");
+
+            const modal = document.getElementById("ptcModal");
+            const modalTitle = document.getElementById("modalAdTitle");
+            const modalDesc = document.getElementById("modalAdDesc");
+            const timerDisplay = document.getElementById("timerDisplay");
+            const modalStatus = document.getElementById("modalStatus");
+            const closeBtn = document.getElementById("closeModalBtn");
+
+            if(!modal) return;
+
+            modalTitle.innerText = title;
+            modalDesc.innerText = `Watch for ${seconds} seconds to earn +${reward} Points.`;
+            timerDisplay.innerText = seconds;
+            modalStatus.innerText = "Timer running... Keep window focused.";
+            timerDisplay.className = "text-4xl font-extrabold text-emerald-400 font-mono mb-6 bg-[#0b0f19] py-6 rounded-xl border border-slate-800/80 animate-pulse";
+            closeBtn.classList.add("hidden");
+            modal.classList.remove("hidden");
+
+            let timeLeft = seconds;
+            if(countdownInterval) clearInterval(countdownInterval);
+
+            countdownInterval = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft;
+
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    timerDisplay.innerText = "✓";
+                    timerDisplay.className = "text-4xl font-extrabold text-emerald-400 font-mono mb-6 bg-[#0b0f19] py-6 rounded-xl border border-slate-800/80";
+                    modalStatus.innerHTML = `<span class="text-emerald-400 font-bold">🎉 Success! Click below to claim +${reward} Points.</span>`;
+                    closeBtn.classList.remove("hidden");
+                }
+            }, 1000);
+        }
+
+        function closeModal() {
+            userPoints += pendingReward;
+            saveData();
+            const modal = document.getElementById("ptcModal");
+            if(modal) modal.classList.add("hidden");
+            
+            handleReferralCommission(pendingReward);
+            loadPayoutTicker();
+        }
+
+        function handleReferralCommission(earnedPts) {
+            let commission = Math.floor(earnedPts * 0.20); // 20% Commission
+            if(commission > 0) {
+                refEarnings += commission;
+                localStorage.setItem("rewardStream_refPts", refEarnings);
+                const refEl = document.getElementById("refEarnings");
+                if(refEl) refEl.innerText = refEarnings + " Points";
+            }
+        }
+
+        function updateBalanceDisplay() {
+            let inr = (userPoints / 100).toFixed(2);
+            let displayText = userPoints + " Pts (₹" + inr + ")";
+            
+            const userBal = document.getElementById("userBal");
+            const mobileBal = document.getElementById("mobileBal");
+            const availPts = document.getElementById("availablePoints");
+            const refEarn = document.getElementById("refEarnings");
+
+            if(userBal) userBal.innerText = displayText;
+            if(mobileBal) mobileBal.innerText = displayText;
+            if(availPts) availPts.innerText = userPoints + " Points";
+            if(refEarn) refEarn.innerText = refEarnings + " Points";
+        }
+
+        function saveData() {
+            localStorage.setItem("rewardStream_pts", userPoints);
+            updateBalanceDisplay();
+        }
+
+        function requestWithdrawal() {
+            const upiInput = document.getElementById("upiInput");
+            const ptsInput = document.getElementById("withdrawPoints");
+            const withdrawAlert = document.getElementById("withdrawAlert");
+            const history = document.getElementById("withdrawHistory");
+
+            if(!upiInput || !ptsInput || !withdrawAlert || !history) return;
+
+            const upi = upiInput.value.trim();
+            const pts = parseInt(ptsInput.value) || 0;
+
+            if (!upi || !upi.includes("@")) {
+                alert("Please enter a valid UPI ID (e.g. 9876543210@paytm)");
+                return;
+            }
+
+            if (pts < 500) {
+                alert("Minimum withdrawal is 500 Points (₹5)!");
+                return;
+            }
+
+            if (pts > userPoints) {
+                alert("Insufficient balance!");
+                return;
+            }
+
+            userPoints -= pts;
+            saveData();
+
+            let inrAmt = (pts / 100).toFixed(2);
+            withdrawAlert.className = "p-3.5 rounded-xl text-xs font-mono text-center border bg-emerald-950 text-emerald-300 border-emerald-800 font-bold";
+            withdrawAlert.innerText = `✅ Withdrawal Requested! ₹${inrAmt} sent to UPI: ${upi}. Status: Pending (10 mins).`;
+
+            history.innerHTML = `
+                <div class="bg-[#0b0f19] p-3 rounded-xl border border-yellow-800/50 flex justify-between items-center text-yellow-400">
+                    <span>UPI: ${upi} (-${pts} Pts / ₹${inrAmt})</span>
+                    <span class="bg-yellow-500/20 px-2 py-0.5 rounded text-[10px]">⏳ Pending (10m)</span>
+                </div>
+            ` + history.innerHTML;
+        }
+
+        function copyRefLink() {
+            const refBox = document.getElementById("refLinkBox");
+            if(!refBox) return;
+            if(refBox.value.includes("Enter your name")) {
+                alert("Please enter your name on Dashboard first!");
+                return;
+            }
+            refBox.select();
+            document.execCommand("copy");
+            alert("Referral link copied! Earn 20% lifetime commission.");
+        }
+    </script>
+</body>
+</html>
