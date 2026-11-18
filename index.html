@@ -55,14 +55,24 @@
         </div>
     </aside>
 
-    <!-- Mobile Top Header Bar -->
-    <header class="md:hidden bg-[#111827] border-b border-slate-800 p-4 flex justify-between items-center sticky top-0 z-40">
-        <div class="flex items-center gap-2">
-            <span class="text-xl">💎</span>
-            <span class="font-bold text-white text-base">Reward<span class="text-emerald-400">Stream</span></span>
+    <!-- Mobile Top Header Bar & Quick Menu -->
+    <header class="md:hidden bg-[#111827] border-b border-slate-800 p-3 sticky top-0 z-40 space-y-2">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <span class="text-xl">💎</span>
+                <span class="font-bold text-white text-base">Reward<span class="text-emerald-400">Stream</span></span>
+            </div>
+            <div class="bg-[#0b0f19] px-3 py-1 rounded-lg border border-slate-800 text-xs font-mono text-emerald-400 font-bold" id="mobileBal">
+                0 Pts (₹0.00)
+            </div>
         </div>
-        <div class="bg-[#0b0f19] px-3 py-1 rounded-lg border border-slate-800 text-xs font-mono text-emerald-400 font-bold" id="mobileBal">
-            0 Pts (₹0.00)
+        <!-- Mobile Scrollable Quick Tabs (ताकि स्क्रीन छोटी होने पर भी ऑफर्स तुरंत दिखें) -->
+        <div class="flex gap-2 overflow-x-auto pb-1 text-xs font-medium no-scrollbar">
+            <button onclick="switchTab('dashboard')" id="top-tab-dashboard" class="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">📊 Dashboard</button>
+            <button onclick="switchTab('ptc1')" id="top-tab-ptc1" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 whitespace-nowrap">🔥 Offers 1</button>
+            <button onclick="switchTab('ptc2')" id="top-tab-ptc2" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 whitespace-nowrap">⚡ Offers 2</button>
+            <button onclick="switchTab('withdraw')" id="top-tab-withdraw" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 whitespace-nowrap">💸 Withdraw</button>
+            <button onclick="switchTab('referral')" id="top-tab-referral" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 whitespace-nowrap">👥 Referrals</button>
         </div>
     </header>
 
@@ -259,56 +269,12 @@
 
     </main>
 
-    <!-- Mobile Bottom Navigation Bar (Visible only on mobile) -->
-    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-[#111827] border-t border-slate-800 p-2 flex justify-around items-center z-50 shadow-2xl">
-        <button onclick="switchTab('dashboard')" id="mob-nav-dashboard" class="flex flex-col items-center text-[10px] text-emerald-400 p-1 font-bold">
-            <span class="text-lg">📊</span>
-            <span>Dashboard</span>
-        </button>
-        <button onclick="switchTab('ptc1')" id="mob-nav-ptc1" class="flex flex-col items-center text-[10px] text-slate-400 p-1">
-            <span class="text-lg">🔥</span>
-            <span>Offers 1</span>
-        </button>
-        <button onclick="switchTab('ptc2')" id="mob-nav-ptc2" class="flex flex-col items-center text-[10px] text-slate-400 p-1">
-            <span class="text-lg">⚡</span>
-            <span>Offers 2</span>
-        </button>
-        <button onclick="switchTab('withdraw')" id="mob-nav-withdraw" class="flex flex-col items-center text-[10px] text-slate-400 p-1">
-            <span class="text-lg">💸</span>
-            <span>Withdraw</span>
-        </button>
-        <button onclick="switchTab('referral')" id="mob-nav-referral" class="flex flex-col items-center text-[10px] text-slate-400 p-1">
-            <span class="text-lg">👥</span>
-            <span>Referrals</span>
-        </button>
-    </nav>
-
-    <!-- PTC Timer Modal -->
-    <div id="ptcModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-[#111827] border border-slate-800 rounded-2xl w-full max-w-md p-6 text-center shadow-2xl relative">
-            <h3 id="modalAdTitle" class="text-lg font-bold text-white mb-2">Viewing Advertisement</h3>
-            <p id="modalAdDesc" class="text-xs text-slate-400 mb-6">Please wait while timer completes...</p>
-            
-            <div id="timerDisplay" class="text-4xl font-extrabold text-emerald-400 font-mono mb-6 bg-[#0b0f19] py-6 rounded-xl border border-slate-800/80 animate-pulse">
-                7
-            </div>
-
-            <div id="modalStatus" class="text-xs font-mono text-slate-300 mb-4">
-                Keep window focused to receive reward.
-            </div>
-
-            <button id="closeModalBtn" onclick="closeModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition hidden cursor-pointer shadow-lg">
-                Close & Claim Reward
-            </button>
-        </div>
-    </div>
-
     <!-- JavaScript Core Logic -->
     <script>
         let userPoints = parseInt(localStorage.getItem("rewardStream_pts")) || 0;
         let lastClaimTime = parseInt(localStorage.getItem("rewardStream_claimTime")) || 0;
         let refEarnings = parseInt(localStorage.getItem("rewardStream_refPts")) || 0;
-        const COOLDOWN_TIME = 60; // 60 seconds
+        const COOLDOWN_TIME = 60;
         let countdownInterval = null;
         let pendingReward = 0;
 
@@ -343,8 +309,11 @@
                 const nav = document.getElementById('nav-' + t);
                 if(nav) nav.className = "flex items-center justify-between px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800/80 hover:text-white transition";
 
-                const mobNav = document.getElementById('mob-nav-' + t);
-                if(mobNav) mobNav.className = "flex flex-col items-center text-[10px] text-slate-400 p-1";
+                // Top mobile quick tabs update
+                const topTab = document.getElementById('top-tab-' + t);
+                if(topTab) {
+                    topTab.className = "px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 whitespace-nowrap";
+                }
             });
 
             const targetTab = document.getElementById('tab-' + tabName);
@@ -353,8 +322,10 @@
             const activeNav = document.getElementById('nav-' + tabName);
             if(activeNav) activeNav.className = "flex items-center justify-between px-4 py-3 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 transition";
             
-            const activeMobNav = document.getElementById('mob-nav-' + tabName);
-            if(activeMobNav) activeMobNav.className = "flex flex-col items-center text-[10px] text-emerald-400 p-1 font-bold";
+            const activeTopTab = document.getElementById('top-tab-' + tabName);
+            if(activeTopTab) {
+                activeTopTab.className = "px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 whitespace-nowrap font-bold";
+            }
         }
 
         function loadPayoutTicker() {
@@ -406,7 +377,7 @@
             lastClaimTime = currentTime;
             localStorage.setItem("rewardStream_claimTime", lastClaimTime);
 
-            let earned = 5; // 5 Points = ₹0.05
+            let earned = 5;
             userPoints += earned;
             saveData();
             
@@ -419,7 +390,6 @@
 
         function openPtcModal(title, reward, seconds, adUrl) {
             pendingReward = reward;
-
             window.open(adUrl, "_blank");
 
             const modal = document.getElementById("ptcModal");
@@ -467,12 +437,12 @@
         }
 
         function handleReferralCommission(earnedPts) {
-            let commission = Math.floor(earnedPts * 0.20); // 20% Commission
+            let commission = Math.floor(earnedPts * 0.20);
             if(commission > 0) {
                 refEarnings += commission;
                 localStorage.setItem("rewardStream_refPts", refEarnings);
-                const refEl = document.getElementById("refEarnings");
-                if(refEl) refEl.innerText = refEarnings + " Points";
+                const refEarn = document.getElementById("refEarnings");
+                if(refEarn) refEarn.innerText = refEarnings + " Points";
             }
         }
 
