@@ -66,13 +66,13 @@
                 0 Pts (₹0.00)
             </div>
         </div>
-        <!-- Mobile Scrollable Quick Tabs (ताकि स्क्रीन छोटी होने पर भी ऑफर्स तुरंत दिखें) -->
-        <div class="flex gap-2 overflow-x-auto pb-1 text-xs font-medium no-scrollbar">
-            <button onclick="switchTab('dashboard')" id="top-tab-dashboard" class="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">📊 Dashboard</button>
-            <button onclick="switchTab('ptc1')" id="top-tab-ptc1" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 whitespace-nowrap">🔥 Offers 1</button>
-            <button onclick="switchTab('ptc2')" id="top-tab-ptc2" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 whitespace-nowrap">⚡ Offers 2</button>
-            <button onclick="switchTab('withdraw')" id="top-tab-withdraw" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 whitespace-nowrap">💸 Withdraw</button>
-            <button onclick="switchTab('referral')" id="top-tab-referral" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 whitespace-nowrap">👥 Referrals</button>
+        <!-- Mobile Grid Tabs (बिना स्क्रॉल के सारे बटन सामने फिट) -->
+        <div class="grid grid-cols-5 gap-1 pb-1 text-[11px] font-medium text-center">
+            <button onclick="switchTab('dashboard')" id="top-tab-dashboard" class="py-1.5 px-1 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 truncate">📊 Dash</button>
+            <button onclick="switchTab('ptc1')" id="top-tab-ptc1" class="py-1.5 px-1 rounded-lg bg-slate-800 text-slate-300 truncate">🔥 Offers 1</button>
+            <button onclick="switchTab('ptc2')" id="top-tab-ptc2" class="py-1.5 px-1 rounded-lg bg-slate-800 text-slate-300 truncate">⚡ Offers 2</button>
+            <button onclick="switchTab('withdraw')" id="top-tab-withdraw" class="py-1.5 px-1 rounded-lg bg-slate-800 text-slate-300 truncate">💸 Withdraw</button>
+            <button onclick="switchTab('referral')" id="top-tab-referral" class="py-1.5 px-1 rounded-lg bg-slate-800 text-slate-300 truncate">👥 Refer</button>
         </div>
     </header>
 
@@ -269,6 +269,26 @@
 
     </main>
 
+    <!-- PTC Timer Modal -->
+    <div id="ptcModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-[#111827] border border-slate-800 rounded-2xl w-full max-w-md p-6 text-center shadow-2xl relative">
+            <h3 id="modalAdTitle" class="text-lg font-bold text-white mb-2">Viewing Advertisement</h3>
+            <p id="modalAdDesc" class="text-xs text-slate-400 mb-6">Please wait while timer completes...</p>
+            
+            <div id="timerDisplay" class="text-4xl font-extrabold text-emerald-400 font-mono mb-6 bg-[#0b0f19] py-6 rounded-xl border border-slate-800/80 animate-pulse">
+                7
+            </div>
+
+            <div id="modalStatus" class="text-xs font-mono text-slate-300 mb-4">
+                Keep window focused to receive reward.
+            </div>
+
+            <button id="closeModalBtn" onclick="closeModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition hidden cursor-pointer shadow-lg">
+                Close & Claim Reward
+            </button>
+        </div>
+    </div>
+
     <!-- JavaScript Core Logic -->
     <script>
         let userPoints = parseInt(localStorage.getItem("rewardStream_pts")) || 0;
@@ -312,7 +332,7 @@
                 // Top mobile quick tabs update
                 const topTab = document.getElementById('top-tab-' + t);
                 if(topTab) {
-                    topTab.className = "px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 whitespace-nowrap";
+                    topTab.className = "py-1.5 px-1 rounded-lg bg-slate-800 text-slate-300 truncate";
                 }
             });
 
@@ -324,7 +344,7 @@
             
             const activeTopTab = document.getElementById('top-tab-' + tabName);
             if(activeTopTab) {
-                activeTopTab.className = "px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 whitespace-nowrap font-bold";
+                activeTopTab.className = "py-1.5 px-1 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 truncate font-bold";
             }
         }
 
